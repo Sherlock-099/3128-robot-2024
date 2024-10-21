@@ -67,6 +67,17 @@ public class Trajectories {
     public static void initTrajectories() {
         Pathfinding.setPathfinder(new LocalADStar());
 
+        // NamedCommands.registerCommand("Pickup", pickupCone());
+        // NamedCommands.registerCommand("Place", placeCone());
+
+        // public static Command pickupCone() {
+        //     //pickup cone
+        // }
+
+        // public static placeCone() {
+        //     //place cone
+        // }
+
         // NamedCommands.registerCommand("Intake", intake.intakeAuto());
         // NamedCommands.registerCommand("Shoot", autoShoot(0.75));
 

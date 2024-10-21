@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.86,
+        "x": 2.8643588309897767,
         "y": 1.98
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0008413291490093,
+        "x": 3.005200160138786,
         "y": 2.0798980738043533
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "middlepole"
     },
     {
       "anchor": {
@@ -25,7 +25,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "pole2.2"
     }
   ],
   "rotationTargets": [],
