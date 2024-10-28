@@ -57,7 +57,7 @@ public class Trajectories {
             this.height = height;
         }
         public double getHeight() {
-            return height;
+            return height; 
         }
     }
 
@@ -66,6 +66,15 @@ public class Trajectories {
 
     public static void initTrajectories() {
         Pathfinding.setPathfinder(new LocalADStar());
+        
+        //!IMPORTANT!
+        // NamedCommands.registerCommand("command", command());
+
+        //use the line above to register different commadns to use for your 
+        //autos. The two most important commands are pick up cone and 
+        //place cone
+
+
 
         // NamedCommands.registerCommand("Intake", intake.intakeAuto());
         // NamedCommands.registerCommand("Shoot", autoShoot(0.75));
@@ -145,6 +154,5 @@ public class Trajectories {
         //         0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
         //     );
     //}
-    
 }
 }

@@ -14,25 +14,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "low cone (preload)"
+            "pathName": "preload-pole1.2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "pickup mid cone"
+            "pathName": "pole1.2-midcone"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "align midcone"
+            "pathName": "midcone-middlepole"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "drop midcone"
+            "pathName": "middlepole-pole2.2"
           }
         }
       ]
