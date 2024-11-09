@@ -26,6 +26,7 @@ import frc.team3128.commands.CmdSwerveDrive;
 import common.core.swerve.SwerveModule;
 import common.hardware.camera.Camera;
 import common.hardware.input.NAR_ButtonBoard;
+import common.hardware.input.NAR_Joystick;
 import common.hardware.input.NAR_XboxController;
 import common.hardware.input.NAR_XboxController.XboxButton;
 import common.hardware.limelight.Limelight;
@@ -44,6 +45,7 @@ import frc.team3128.subsystems.Intake;
 import frc.team3128.subsystems.Leds;
 import frc.team3128.subsystems.Shooter;
 import frc.team3128.subsystems.Swerve;
+import frc.team3128.subsystems.Tank;
 import frc.team3128.subsystems.Intake.Setpoint;
 
 /**
@@ -54,15 +56,12 @@ import frc.team3128.subsystems.Intake.Setpoint;
  */
 public class RobotContainer {
 
-    private Swerve swerve;
-    private Shooter shooter;
-    private AmpMechanism ampMechanism;
+    private Tank tank;
     private Climber climber;
     private Intake intake;
-    private Leds leds;
 
     // private NAR_ButtonBoard judgePad;
-    private NAR_ButtonBoard buttonPad;
+    private NAR_Joystick joystick;
 
     public static NAR_XboxController controller;
 
@@ -81,8 +80,7 @@ public class RobotContainer {
         // climber.addClimberTests();
         // intake.addIntakeTests();
 
-        controller = new NAR_XboxController(2);
-        buttonPad = new NAR_ButtonBoard(3);
+        joystick = new NAR_Joystick(0); //change if necessary
 
         //uncomment line below to enable driving
         CommandScheduler.getInstance().setDefaultCommand(swerve, new CmdSwerveDrive(controller::getLeftX,controller::getLeftY, controller::getRightX, true));
