@@ -1,43 +1,13 @@
 package frc.team3128.autonomous;
 
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
-
-import common.core.commands.NAR_PIDCommand;
-import common.core.controllers.Controller;
-import common.core.controllers.PIDFFConfig;
-import common.core.controllers.Controller.Type;
-import common.utility.shuffleboard.NAR_Shuffleboard;
-
-import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.pathfinding.LocalADStar;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-
 import static edu.wpi.first.wpilibj2.command.Commands.*;
-import static frc.team3128.Constants.AutoConstants.*;
-import static frc.team3128.Constants.IntakeConstants.*;
-import static frc.team3128.Constants.FocalAimConstants.focalPointBlue;
-import static frc.team3128.Constants.FocalAimConstants.focalPointRed;
-import static frc.team3128.Constants.ShooterConstants.MAX_RPM;
-import static frc.team3128.Constants.ShooterConstants.RAM_SHOT_RPM;
-
-import frc.team3128.Constants.AutoConstants;
-import frc.team3128.Constants.ShooterConstants;
-import frc.team3128.Robot;
-import frc.team3128.RobotContainer;
-import frc.team3128.commands.CmdManager;
-import java.util.function.DoubleSupplier;
+import frc.team3128.subsystems.Intake;
 
 /**
  * Store trajectories for autonomous. Edit points here. 
@@ -61,20 +31,19 @@ public class Trajectories {
         }
     }
 
-    private static double vx = 0, vy = 0;
-    private static boolean turning = false;
-
     public static void initTrajectories() {
         Pathfinding.setPathfinder(new LocalADStar());
-        
+      
         //!IMPORTANT!
-        // NamedCommands.registerCommand("command", command());
-
+        //NamedCommands.registerCommand("command", command());
+    NamedCommands.registerCommand("Intake", Intake.intakecommand());//intake 
+    //NamedCommands.registerCommand("Tank", void command());//tank
+    //NamedCommands.registerCommand("Climber", Climber.command());//climber
         //use the line above to register different commadns to use for your 
         //autos. The two most important commands are pick up cone and 
         //place cone
 
-
+    }
 
         // NamedCommands.registerCommand("Intake", intake.intakeAuto());
         // NamedCommands.registerCommand("Shoot", autoShoot(0.75));
@@ -130,21 +99,21 @@ public class Trajectories {
         // );
     // }
 
-    // public static Command getPathPlannerAuto(String name) {
-    //     return new PathPlannerAuto(name);
-    // }
+    public static Command getPathPlannerAuto(String name) {
+        return new PathPlannerAuto(name);
+    }
 
-    // public static Command resetAuto() {
-        // return sequence(
-        //     intake.intakePivot.reset(0),
-        //     climber.reset(),
-        //     runOnce(()-> swerve.zeroGyro(Robot.getAlliance() == Alliance.Red ? 0 : 180)),
-        //     AmpMechanism.getInstance().reset(-90),
-        //     runOnce(()-> swerve.resetEncoders()),
-        //     runOnce(()-> Intake.getInstance().isRetracting = false)
-        // );
+     public static Command resetAuto() {
+         return sequence(
+             Intake.intakePivot.reset(0),
+             //Climber.reset(),
+             //runOnce(()-> swerve.zeroGyro(Robot.getAlliance() == Alliance.Red ? 0 : 180)),
+             //AmpMechanism.getInstance().reset(-90),
+             //runOnce(()-> swerve.resetEncoders()),
+             runOnce(()-> Intake.getInstance().isRetracting = false)
+         );
         
-    // }
+     }
 
     // public static Command goToPoint(Pose2d pose) {
         // return AutoBuilder.pathfindToPose(
@@ -154,5 +123,4 @@ public class Trajectories {
         //         0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
         //     );
     //}
-}
 }
