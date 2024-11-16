@@ -280,6 +280,10 @@ public class Constants {
         public static final double OUTTAKE_POWER = -1;
         public static final double INTAKE_POWER = 0.7 /0.75;
         public static final double AMP_POWER = -0.18 / 0.75;
+        public static final double CURRENT_THRESHHOLD = 50; //find through testing
+
+        public static final int ROLLER_MOTOR_ID = 2;
+        public static final NAR_CANSpark ROLLER_MOTOR = new NAR_CANSpark(ROLLER_MOTOR_ID);
 
         public static final double CURRENT_TEST_POWER = OUTTAKE_POWER;
         public static final double CURRENT_TEST_PLATEAU = 1;
