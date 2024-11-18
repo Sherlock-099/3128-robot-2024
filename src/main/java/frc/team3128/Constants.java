@@ -235,6 +235,7 @@ public class Constants {
         public static final double POSITION_MAXIMUM = 30;
         public static final double HEIGHT_OFFSET = 7; // 14 degrees ish
         public static final double ANGLE_OFFSET = 14;
+        
 
         public static final double NEUTRAL_THRESHOLD = 1;
         public static final InterpolatingDoubleTreeMap climberHeightMap = new InterpolatingDoubleTreeMap();

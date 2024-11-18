@@ -105,8 +105,6 @@ public class Intake {
        public Command pivotTo(DoubleSupplier setpoint) {
            return runOnce(()-> startPID(setpoint.getAsDouble()));
        }
-
-
    }
 
    public class IntakeRollers extends ManipulatorTemplate {
@@ -134,6 +132,8 @@ public class Intake {
         //??????????????????????????????????????limitSwitch = new DigitalInput(7);
         initShuffleboard();
     }
+
+
  
  
     @Override
@@ -152,7 +152,7 @@ public class Intake {
    
  
  
- }
+    }
  
  
     private static Intake instance;
@@ -194,14 +194,12 @@ public class Intake {
                     intakePivot.pivotTo(setpoint.angle),
                     waitUntil(() -> hasObjectPresent()),
                     runOnce(() -> setPower(STALL_POWER))
-                                    )
-                                    )
-                                );
-                        }
+                )
+            )
+        );
+    }
                     
-                    
-                    
-                        public Command outtake() {
+    public Command outtake() {
         return sequence (
             //outtaking so have your intakePivot pivot to your enum state
             intakePivot.pivotTo(Setpoint.LOWPOLE.angle),
@@ -222,6 +220,10 @@ public class Intake {
     private void setPower(double stallPower) {
         ROLLER_MOTOR.set(stallPower);
     }
-   
- }
+
+    public State getRunningState() {
+        //how do you find the state?
+        return State.RUNNING;
+    }
+}
  
