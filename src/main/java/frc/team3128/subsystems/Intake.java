@@ -41,10 +41,12 @@ import common.utility.tester.CurrentTest;
 public class Intake {
 
     public enum Setpoint {
+
         //define your enums here (the diff heights you want to place cones at - ie. low pole, mid pole, etc)
         LOWPOLE(20),
         MIDPOLE(32),
         HIGHPOLE(49);
+
 
         public final double angle;
         private Setpoint(double angle) {
@@ -68,7 +70,6 @@ public class Intake {
 
         }
 
-
         @Override 
         protected void configMotors() {
             PIVOT_MOTOR.setInverted(false);
@@ -76,7 +77,7 @@ public class Intake {
             //define one motor (use NAR_CANspark as the type of motor)
             //motor should have setInverted as false
             //set motor's NeutralMode as COAST
-        
+       
         }
 
 
@@ -85,7 +86,7 @@ public class Intake {
             PIVOT_MOTOR.setVolts(MathUtil.clamp(output, -12, 12));
             // motor.setVolts(MathUtil.clamp(output, -12, 12));
         }
-        
+       
         public Command pivotTo(DoubleSupplier setpoint) {
             return runOnce(()-> startPID(setpoint.getAsDouble()));
         }
