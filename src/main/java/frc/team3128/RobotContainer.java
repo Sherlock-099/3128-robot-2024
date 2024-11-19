@@ -72,7 +72,7 @@ public class RobotContainer {
         joystick = new NAR_Joystick(0); //change if necessary
 
         //uncomment line below to enable driving
-        CommandScheduler.getInstance().setDefaultCommand(tank, new TankCommand(controller::getLeftX, controller::getLeftY, controller::getRightX, true));
+        CommandScheduler.getInstance().setDefaultCommand(tank, new TankCommand(controller::getLeftY, controller::getRightX, true));
 
         // initRobotTest();
         
@@ -84,12 +84,17 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // controller.getButton(XboxButton.kB).onTrue(rampUpFeed(MIDDLE_FEED_RPM, MIDDLE_FEED_RPM, 13)).onFalse(feed(MIDDLE_FEED_RPM, 13,MIDDLE_FEED_ANGLE));
         // controller.getButton(XboxButton.kY).onTrue(rampUpFeed(EDGE_FEED_RPM, EDGE_FEED_RPM, 13)).onFalse(feed(EDGE_FEED_RPM, 13, EDGE_FEED_ANGLE));   //Feed Shot
+        //need to change level, intake, outtake, move
+        controller.getButton(XboxButton.kLeftTrigger).onTrue(intake.outtake());  // Outtakes
+        controller.getButton(XboxButton.kLeftBumper).onTrue(intake.intake(Setpoint.INTAKING));  // Intakes
+        controller.getButton(XboxButton.kLeftBumper).toggleOnFalse(intake.intakePivot.pivotTo(Setpoint.LOWPOLE.angle));
 
-        controller.getButton(XboxButton.kLeftTrigger).onTrue(intake.intake(Intake.Setpoint.EXTENDED));  //Extend Intake
+        controller.getButton(XboxButton.kRightTrigger).onTrue(intake.intakePivot.pivotTo(intake.GetSetpointUp(intake.intakePivot.getSetpoint()).angle));  //1 up
+        controller.getButton(XboxButton.kRightBumper).onTrue(intake.intakePivot.pivotTo(intake.GetSetpointDown(intake.intakePivot.getSetpoint()).angle));  //1 down
 
-        controller.getButton(XboxButton.kStart).onTrue(intake.outtake()); //Amp LED
+        controller.getButton(XboxButton.kStart).onTrue(intake.intakePivot.reset()); //reset
 
-        controller.getButton(XboxButton.kRightStick).onTrue(runOnce(()-> TankCommand.setTurnSetpoint(0))); //setTurnpoint originally did not have 0 as parameter (took nothing idk why)
+        //controller.getButton(XboxButton.kRightStick).onTrue(runOnce(()-> TankCommand.setTurnSetpoint(0))); //setTurnpoint originally did not have 0 as parameter (took nothing idk why)
 
         //pov buttons? tyler
         controller.getUpPOVButton().onTrue(runOnce(()-> {

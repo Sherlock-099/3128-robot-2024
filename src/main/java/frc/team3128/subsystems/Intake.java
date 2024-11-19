@@ -57,7 +57,8 @@ public class Intake {
 
     public enum Setpoint {
         //define your enums here (the diff heights you want to place cones at - ie. low pole, mid pole, etc)
-        LOWPOLE(0),
+        INTAKING(0),
+        LOWPOLE(20),
         MIDPOLE(45),
         HIGHPOLE(70)
         ;
@@ -70,12 +71,14 @@ public class Intake {
 
     public class IntakePivot extends PivotTemplate {
 
+        private double currSetpoint;
 
        private IntakePivot() {
            super(new TrapController(PIDConstants, TRAP_CONSTRAINTS), PIVOT_MOTOR);
            setTolerance(ANGLE_TOLERANCE);
            setConstraints(POSITION_MINIMUM, POSITION_MAXIMUM);
            initShuffleboard();
+           currSetpoint = Setpoint.INTAKING.angle;
            //define your controller here (using trap controller)
            //setTolerance here (aka the max angle error that's acceptable)
            //setConstraints (min and max position of the intake - in degrees)
@@ -102,9 +105,23 @@ public class Intake {
           // motor.setVolts(MathUtil.clamp(output, -12, 12));
        }
       
+       public Command pivotTo(double setpoint) {
+        currSetpoint = setpoint;
+       return runOnce(()-> startPID(setpoint));
+        }
+
        public Command pivotTo(DoubleSupplier setpoint) {
+            currSetpoint = setpoint.getAsDouble();
            return runOnce(()-> startPID(setpoint.getAsDouble()));
        }
+
+        public double GetSetpoint() {
+            return currSetpoint;
+        }
+
+        public Command reset() {
+            return runOnce(() -> PIVOT_MOTOR.resetPosition(Setpoint.INTAKING.angle));
+        }
    }
 
    public class IntakeRollers extends ManipulatorTemplate {
@@ -202,7 +219,7 @@ public class Intake {
     public Command outtake() {
         return sequence (
             //outtaking so have your intakePivot pivot to your enum state
-            intakePivot.pivotTo(Setpoint.LOWPOLE.angle),
+            // intakePivot.pivotTo(setpoint),
             //have intakeRollers run manipulator at outake power
             intakeRollers.runManipulator(OUTTAKE_POWER)
         );
@@ -223,7 +240,33 @@ public class Intake {
 
     public State getRunningState() {
         //how do you find the state?
+        if (PIVOT_MOTOR.getState() == State.DISCONNECTED) return State.DISCONNECTED;
+        if (ROLLER_MOTOR.getState() == State.DISCONNECTED) return State.DISCONNECTED;
         return State.RUNNING;
+    }
+
+    public Setpoint GetSetpointUp(double setpoint) {
+        if (setpoint == Setpoint.MIDPOLE.angle) {
+            return Setpoint.HIGHPOLE;
+        } else if (setpoint == Setpoint.LOWPOLE.angle) {
+            return Setpoint.MIDPOLE;
+        } else if (setpoint == Setpoint.INTAKING.angle) {
+            return Setpoint.LOWPOLE;
+        }
+
+        return Setpoint.HIGHPOLE;
+    }
+
+    public Setpoint GetSetpointDown(double setpoint) {
+        if (setpoint == Setpoint.LOWPOLE.angle) {
+            return Setpoint.INTAKING;
+        } else if (setpoint == Setpoint.MIDPOLE.angle) {
+            return Setpoint.LOWPOLE;
+        } else if (setpoint == Setpoint.HIGHPOLE.angle) {
+            return Setpoint.MIDPOLE;
+        }
+
+        return Setpoint.INTAKING;
     }
 }
  
