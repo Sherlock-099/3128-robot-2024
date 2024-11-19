@@ -6,6 +6,7 @@ import common.utility.narwhaldashboard.NarwhalDashboard;
 import static edu.wpi.first.wpilibj2.command.Commands.*;
 
 import java.util.HashMap;
+import frc.team3128.subsystems.Intake;
 
 /**
  * Class to store information about autonomous routines.
@@ -13,14 +14,15 @@ import java.util.HashMap;
  */
 
 public class AutoPrograms {
-
-    private HashMap<String, Command> autoMap = new HashMap<String, Command>();
+        private HashMap<String, Command> autoMap = new HashMap<String, Command>();
+    private HashMap<String, Command> pathMap = new HashMap<String, Command>();
 
     public AutoPrograms() {
-
+        Intake.getInstance();
         Trajectories.initTrajectories();
         initAutoSelector();
     }
+
 
     private void initAutoSelector() {
         final String[] autoStrings = new String[] {
@@ -31,7 +33,17 @@ public class AutoPrograms {
             "middleClose_5note",
             "middle_6note",
             "bottom_7note",
-            "special_3note"
+            "special_3note",
+        };
+        final String[] pathStrings = new String[] {
+            "only-note1.2-note2.3",
+            "only-note2.3-middle",
+            "only-top-note2.1",
+            "only-note2.1-wing",
+            "only-wing-note2.2",
+            "only-note2.2-wing",
+            //"only-wing-note2.3",
+            "only-note2.3-wing"
         };
         
         NarwhalDashboard.getInstance().addAutos(autoStrings);
@@ -39,6 +51,16 @@ public class AutoPrograms {
             if (auto.equals("default")) continue;
             autoMap.put(auto, Trajectories.getPathPlannerAuto(auto));
         }
+        for (String path : pathStrings) {
+            pathMap.put(path, Trajectories.getPathPlannerAuto(path));
+        }
+    }
+    public Command getAuto(String name) {
+        return autoMap.get(name);
+    }
+
+    public Command getPath(String name) {
+        return pathMap.get(name);
     }
 
     public Command getAutonomousCommand() {
