@@ -103,7 +103,7 @@ public class Trajectories {
         return new PathPlannerAuto(name);
     }
 
-     public static Command resetAuto() {
+     public static  Command resetAuto() {
          return sequence(
              Intake.intakePivot.reset(0),
              //Climber.reset(),
